@@ -1,11 +1,9 @@
-package com.example.InventoryMgtSystem.models;
+package com.example.InventoryMgtSystem.dtos;
 
 import com.example.InventoryMgtSystem.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -15,9 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-@Data
-@Builder
-public class Users {
+public class UsersDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +38,7 @@ public class Users {
     private UserRole role;
 
     @OneToMany(mappedBy = "user")
-    private List<Transaction> transactions;
+    private List<TransactionDTO> transactionDTOS;
 
 
     private final LocalDateTime createdAt = LocalDateTime.now();

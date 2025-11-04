@@ -1,11 +1,9 @@
-package com.example.InventoryMgtSystem.models;
+package com.example.InventoryMgtSystem.dtos;
 
 import com.example.InventoryMgtSystem.enums.TransactionStatus;
 import com.example.InventoryMgtSystem.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -15,9 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "transactions")
-@Data
-@Builder
-public class Transaction {
+public class TransactionDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,15 +39,15 @@ public class Transaction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Product product;
+    private ProductDTO product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Users user;
+    private UsersDTO user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
+    private SupplierDTO supplier;
 
     @Override
     public String toString() {
