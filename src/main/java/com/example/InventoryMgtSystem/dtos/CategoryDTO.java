@@ -18,22 +18,11 @@ import java.util.List;
 
 public class CategoryDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank(message = "Name is required")
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<ProductDTO> products;
 
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", products=" + products +
-                '}';
-    }
 }
