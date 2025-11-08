@@ -2,7 +2,9 @@ package com.example.InventoryMgtSystem.specification;
 
 
 import com.example.InventoryMgtSystem.models.Transaction;
+import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.JoinType;
+import org.springframework.core.type.filter.AspectJTypeFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ public class TransactionFilter {
 
     public static Specification<Transaction> byFilter(String searchValues){
 
-        return ((root,query, criteriaBuilder) -> {
+        return (root,query, criteriaBuilder) -> {
 
             if (searchValues == null || searchValues.isEmpty()){
                 return criteriaBuilder.conjunction();
@@ -58,7 +60,22 @@ public class TransactionFilter {
             }
             predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.join("product",JoinType.LEFT).join("category",JoinType.LEFT).get("name")), searchPattern));
 
-        })
+//            combine all predicates with OR
+            return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
+        };
+
+//
     }
 
+    public static Specification<Transaction> byMonthAndYear(int month, int year){
+        return (root, query, criteriaBuilder) -> {
+            Expression<Integer> monthExpression = criteriaBuilder.function("month", Integer.class, root.get("createdAt"));
+            Expression<Integer> yearExpression = criteriaBuilder.function("year", Integer.class, root.get("createdAt"));
+
+            Predicate monthPredicate = criteriaBuilder.equal(monthExpression, month);
+            Predicate yearPredicate = criteriaBuilder.equal(yearExpression, year);
+
+            return criteriaBuilder.and(monthPredicate, yearPredicate);
+        };
+    }
 }

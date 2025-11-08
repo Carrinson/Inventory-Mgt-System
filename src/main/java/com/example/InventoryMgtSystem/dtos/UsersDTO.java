@@ -32,7 +32,7 @@ public class UsersDTO {
 
     private UserRole role;
 
-    private List<TransactionDTO> transactionDTOS;
+    private List<TransactionDTO> transaction;
 
 
     private LocalDateTime createdAt;
