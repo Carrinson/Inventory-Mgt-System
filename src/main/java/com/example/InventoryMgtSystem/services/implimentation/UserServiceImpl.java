@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
         Users userToSave = Users.builder()
                 .name(registerRequest.getName())
                 .email(registerRequest.getEmail())
+                .phoneNumber(registerRequest.getPhoneNumber())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .role(role)
                 .build();
@@ -109,7 +110,7 @@ public class UserServiceImpl implements UserService {
 
         UsersDTO usersDTO = modelMapper.map(users, UsersDTO.class);
 
-        usersDTO.setTransaction(null);
+        usersDTO.setTransactions(null);
 
         return Response.builder()
                 .status(200)
@@ -134,8 +135,7 @@ public class UserServiceImpl implements UserService {
         usersRepository.save(existingUser);
         return Response.builder()
                 .status(200)
-                .message("success")
-                .user(usersDTO)
+                .message("User successfully updated")
                 .build();
     }
 
@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
         usersRepository.deleteById(id);
         return Response.builder()
                 .status(200)
-                .message("success")
+                .message("Successfully deleted")
                 .build();
     }
 
@@ -153,9 +153,10 @@ public class UserServiceImpl implements UserService {
     public Response getUserTransaction(Long id) {
         Users users = usersRepository.findById(id).orElseThrow(() -> new NotFoundException("User Not Found"));
         UsersDTO usersDTO = modelMapper.map(users, UsersDTO.class);
-        usersDTO.getTransaction().forEach(transactionDTO -> {
-            transactionDTO.setUser(null);
-            transactionDTO.setSupplier(null);
+
+        usersDTO.getTransactions().forEach(transactionDTO -> {
+            transactionDTO.setUser( null);
+            transactionDTO.setSupplier( null);
         });
         return Response.builder()
                 .status(200)

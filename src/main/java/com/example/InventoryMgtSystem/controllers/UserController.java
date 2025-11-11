@@ -23,11 +23,11 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> loginUser(@PathVariable Long id){
+    public ResponseEntity<Response> getUserById(@PathVariable Long id){
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @GetMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Response> updateUser(@PathVariable Long id, @RequestBody UsersDTO usersDTO){
         return ResponseEntity.ok(userService.updateUser(id, usersDTO));
     }
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/transactions/{userId}")
-    public ResponseEntity<Response> getUserAndTransactions(@PathVariable Long userId){
+    public ResponseEntity<Response> getUserAndTransactions(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.getUserTransaction(userId));
     }
 }

@@ -3,6 +3,7 @@ package com.example.InventoryMgtSystem.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +21,10 @@ import java.util.function.Function;
 public class JwtUtils {
 
     private static final long EXPIRATION_TIME_IN_MILISEC = 1000L * 60L * 60L * 24L * 30L * 6L; // expires in 6 months in millisecond
+
     private SecretKey key;
 
-    @Value("secreteJwtString")
+    @Value("${secreteJwtString}")
     private String secretJwtString;
 
     @PostConstruct
@@ -40,6 +42,7 @@ public class JwtUtils {
                 .compact();
     }
     public String getUsernameFromToken(String token) {
+
         return extractClaims(token, Claims::getSubject);
     }
 
